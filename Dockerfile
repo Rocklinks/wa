@@ -8,7 +8,7 @@ COPY . .
 RUN mkdir -p /data/sessions /data/uploads /data/exports
 
 ENV DATA_DIR=/data
-ENV PORT=8080
+ENV PORT=3000
 ENV NODE_OPTIONS="--max-old-space-size=450"
 
 EXPOSE 8080
