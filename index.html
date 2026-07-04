@@ -414,7 +414,7 @@ body{font-family:var(--font);height:100vh;display:flex;flex-direction:column;ove
   <div class="wa-chat" id="wa-chat">
 
     <!-- active chat -->
-    <div id="wa-active" style="display:flex;flex-direction:column;flex:1;overflow:hidden">
+    <div id="wa-active" style="display:none;flex-direction:column;flex:1;overflow:hidden">
       <div class="chat-hdr">
         <div class="av" id="chat-av">?</div>
         <div class="chat-hdr-info">
@@ -611,10 +611,11 @@ io.on('wa:qr',url=>{
 
 io.on('wa:ready',info=>{
   waOk=true;
-  // hide fullscreen QR overlay
   const ov=document.getElementById('qr-overlay');
   ov.classList.add('hide');
   setTimeout(()=>ov.style.display='none',500);
+  // show main UI
+  document.getElementById('wa-active').style.display='flex';
   setWst('g',info.name?'✓ '+info.name:'Connected');
   document.getElementById('wdbtn').classList.remove('hidden');
   const mp=document.getElementById('mypic');
