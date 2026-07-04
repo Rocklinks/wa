@@ -76,8 +76,8 @@ app.get('/export', (req, res) => {
 
 // ── openwa QR event — fires before client is ready ───────────────────────────
 ev.on('qr.**', async qrData => {
-  // qrData is already base64 PNG from openwa
-  io.emit('wa:qr', qrData);
+  const url = await qrcode.toDataURL(qrData, {width:256,margin:2,color:{dark:'#111827',light:'#fff'}});
+  io.emit('wa:qr', url);
 });
 
 // ── Init WhatsApp ─────────────────────────────────────────────────────────────
@@ -91,12 +91,17 @@ async function initWA() {
       blockCrashLogs: true,
       disableSpins: true,
       logConsole: false,
-      qrTimeout: 0,         // wait forever for QR scan
-      authTimeout: 0,       // wait forever for auth
-      qrRefreshS: 15,       // refresh QR every 15s
+      qrTimeout: 0,
+      authTimeout: 0,
+      qrRefreshS: 15,
       autoRefresh: true,
       throwOnExpiredSessionData: false,
+      onQr: async (qr) => {
+        const url = await qrcode.toDataURL(qr, {width:256,margin:2,color:{dark:'#111827',light:'#fff'}});
+        io.emit('wa:qr', url);
+      },
       puppeteerOptions: {
+        executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || '/usr/bin/chromium',
         args: [
           '--no-sandbox', '--disable-setuid-sandbox',
           '--disable-dev-shm-usage', '--disable-gpu',
@@ -299,3 +304,12 @@ server.listen(PORT, () => {
   console.log(`\n✅ Sathya Messenger → http://localhost:${PORT}\n`);
   initWA();
 });
+
+// Keep Render free tier awake — ping self every 10 min
+const APP_URL = process.env.RENDER_EXTERNAL_URL;
+if (APP_URL) {
+  setInterval(() => {
+    require('https').get(APP_URL, () => {}).on('error', () => {});
+    console.log('[ping]', APP_URL);
+  }, 10 * 60 * 1000);
+}
