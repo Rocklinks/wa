@@ -1,10 +1,18 @@
-# Sathya Messenger
+---
+title: Sathya Messenger
+sdk: docker
+---
 
-## Deploy on SnapDeploy (snapdeploy.dev) — Free, no credit card
+# Sathya Messenger — Render Deploy
 
-1. Push all files to a GitHub repo
-2. Go to snapdeploy.dev → New Container → Connect GitHub → pick repo
-3. SnapDeploy detects Dockerfile → builds → gives you a URL
-4. Open URL → scan WhatsApp QR → done
+## Deploy steps
+1. Push files to GitHub repo
+2. render.com → New → Web Service → Connect GitHub repo
+3. Select: **Docker** environment
+4. Port: **10000**
+5. Deploy → get URL → open → scan QR → done
 
-## Also works on Render, HF Spaces, Koyeb — same Dockerfile
+## Notes
+- Render free tier sleeps after 15min idle — wakes in ~30s on URL open
+- WhatsApp session saved in /data — persists across sleeps
+- SMS Gateway: tap ⚙️ in app → enter your phone IP
