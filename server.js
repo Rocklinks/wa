@@ -115,6 +115,12 @@ function startWA() {
         '--disable-translate',
         '--metrics-recording-only',
         '--safebrowsing-disable-auto-update',
+        '--disable-dbus',
+        '--disable-features=TranslateUI',
+        '--disable-ipc-flooding-protection',
+        '--no-first-run',
+        '--disable-backgrounding-occluded-windows',
+        '--disable-renderer-backgrounding',
       ]
     }
   });
