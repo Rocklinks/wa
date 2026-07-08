@@ -23,6 +23,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libxrandr2 \
     libxss1 \
     libxtst6 \
+    dbus \
     xdg-utils \
     && rm -rf /var/lib/apt/lists/*
 
@@ -44,4 +45,4 @@ COPY . .
 RUN mkdir -p /app/data/sessions /app/data/uploads /app/data/exports
 
 EXPOSE 10000
-CMD ["node", "server.js"]
+CMD ["sh", "-c", "mkdir -p /run/dbus && dbus-daemon --system --fork 2>/dev/null; node server.js"]
