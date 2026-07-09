@@ -1,0 +1,5 @@
+{
+  "wa_message_delay_ms": 2000,
+  "sms_message_delay_ms": 3000,
+  "server_port": 10000
+}
